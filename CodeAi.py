@@ -1,126 +1,96 @@
-#include<stdio.h>
-#include<fcntl.h>
-#include<string.h>
-#include<stdlib.h>
-#include<pthread.h>
-void main()
-{
-    int i,j,pt[10],wait_t[10],totalwait_t=0,pr[10],tp1,n;          //pt= process time, wait_t=waiting time, pr=priority
-    char p[10][5],tp[5];
-    float avgwait_t;
-    printf("This is leve1, Preemptive(Priority Scheduling)\n");
-    printf("Enter the number of processes:");
-    scanf("%d",&n);
-    for(i=0;i<n;i++)
-    {
-        printf("Enter the process %d name: ",i+1);
-        scanf("%s",&p[i]);
-        printf("Enter the process time: ");
-        scanf("%d",&pt[i]);
-        printf("Enter the priority: ");
-        scanf("%d",&pr[i]);
-    }
-    for(i=0;i<n-1;i++)
-    {
-        for(j=i+1;j<n;j++)
-        {
-            if(pr[i]>pr[j])
-            {
-                tp1=pr[i];
-                pr[i]=pr[j];
-                pr[j]=tp1;
-                tp1=pt[i];
-                pt[i]=pt[j];
-                pt[j]=tp1;
-                strcpy(tp,p[i]);
-                strcpy(p[i],p[j]);
-                strcpy(p[j],tp);
-            }
-        }
-    }
-    wait_t[0]=0;
-    for(i=1;i<n;i++)
-    {
-        wait_t[i]=wait_t[i-1]+wait_t[i-1];
-        totalwait_t=totalwait_t+wait_t[i];
-    }
-    avgwait_t = totalwait_t/n;
-    printf("Process name \t Processing time \t priority\t Waiting time\n");
-    for(i=0;i<n;i++)
-    {
-       printf(" %s      \t \t %d \t     \t %d \t   \t %d \n" ,p[i],pt[i],pr[i],wait_t[i]);
-    }
-    printf("Total Waiting Time = %d \n",&totalwait_t);
-    printf("Average Waiting time = %f \n",&avgwait_t);
-    printf("\n\nThank You for reading the code snippet by Aditya\n\n");
-   
-    int ts,pid[10],nd[10],wait_t1[10],tat[10],i1,j1,n2,n1;
-    int bt[10],flag[10],totat=0,tot_wait_t=0;
-    float avgwait_t2,avgtat;
-    printf("This is the level 2, Round Robin Scheduling");
-    printf("\n Enter the number of Processes \n");
-    scanf("%d",&n);
-    n1=n;
-    printf("\n Enter the Timeslice(Quanta must be multiple of 2): ");
-    scanf("%d",&ts);
-    for(i=1;i<=n;i++)
-    {
-        printf("\n Enter the process ID for %d:  ",i);
-        scanf("%d",&pid[i]);
-        printf("\n Enter the Burst Time for the process:  ");
-        scanf("%d",&bt[i]);
-        nd[i]=bt[i];
-    }
-    for(i=1;i<=n;i++)
-    {
-        flag[i]=1;
-        wait_t[i]=0;
-    }
-    while(n!=0)
-    {
-        for(i=1;i<=n;i++)
-        {
-            if(nd[i]>=ts)
-            {
-                for(j=1;j<=n;j++)
-                {
-                    if((i!=j)&&(flag[i]==1)&&(nd[j]!=0))
-                    wait_t[j]+=ts;
-                }
-                nd[i]= nd[i]-ts;
-                if(nd[i]==0)
-                {
-                    flag[i]=0;
-                    n--;
-                }
-            }
-            else
-            {
-                for(j=1;j<=n;j++)
-                {
-                    if((i!=j)&&(flag[i]==1)&&(nd[j]!=0))
-                    wait_t[j]+=nd[i];
-                }
-                nd[i]=0;
-                n--;
-                flag[i]=0;
-            }
-        }
-    }
-    for(i=1;i<=n1;i++)
-    {
-        tat[i]=wait_t[i]+bt[i];
-        tot_wait_t=tot_wait_t+wait_t[i];
-        totat=totat+tat[i];
-    }
-    avgwait_t2=(float)tot_wait_t/n1;
-    avgtat=(float)totat/n1;
-    printf("\n\n Process \t Process ID  \t BurstTime \t Waiting Time \t TurnaroundTime \n ");
-    for(i=1;i<=n1;i++)
-    {
-      printf("\n %5d\t \t %5d \t\t %5d \t\t %5d \t\t %5d \n", i,pid[i],bt[i],wait_t[i],tat[i]);
-    }
-    printf("\n The average Waiting Time= %2f",avgwait_t2);
-    printf("\n The average Turn around Time= %2f ",avgtat);
-    printf("\n\nThank You for reading the code snippet by Aditya\n\n");
-}
+import turtle
+import time
+wn = turtle.Screen()
+wn.title("Traffic Light")
+wn.bgcolor("black")
+
+pen = turtle.Turtle()
+pen.color("yellow")
+pen.width(3)
+pen.hideturtle()
+pen.penup()
+pen.goto(230,60)
+pen.pendown()
+pen.fd(60)
+pen.rt(90)
+pen.fd(120)
+pen.rt(90)
+pen.fd(60)
+pen.rt(90)
+pen.fd(120)
+
+red_light = turtle.Turtle()
+red_light.shape("circle")
+red_light.color("grey")
+red_light.penup()
+red_light.goto(260,40)
+
+yellow_light = turtle.Turtle()
+yellow_light.shape("circle")
+yellow_light.color("grey")
+yellow_light.penup()
+yellow_light.goto(260,0)  
+
+green_light = turtle.Turtle()
+green_light.shape("circle")
+green_light.color("grey")
+green_light.penup()
+green_light.goto(260,-40)
+
+
+pen2 = turtle.Turtle()
+pen2.color("yellow")
+pen2.width(3)
+pen2.hideturtle()
+pen2.penup()
+pen2.goto(-280,260)
+pen2.pendown()
+pen2.fd(60)
+pen2.rt(90)
+pen2.fd(120)
+pen2.rt(90)
+pen2.fd(60)
+pen2.rt(90)
+pen2.fd(120)
+red_ligh = turtle.Turtle()
+red_ligh.shape("circle")
+red_ligh.color("grey")
+red_ligh.penup()
+red_ligh.goto(-250,240)
+
+yellow_ligh = turtle.Turtle()
+yellow_ligh.shape("circle")
+#creation by Roll 4
+yellow_ligh.color("grey")
+yellow_ligh.penup()
+yellow_ligh.goto(-250,200)  
+
+green_ligh = turtle.Turtle()
+green_ligh.shape("circle")
+green_ligh.color("grey")
+green_ligh.penup()
+green_ligh.goto(-250,160)
+
+while True:
+    red_light.color("red")
+    green_ligh.color("green")
+    time.sleep(20)
+    
+    green_ligh.color("grey")
+    yellow_ligh.color("yellow")
+    time.sleep(2)
+    
+    yellow_ligh.color("grey")
+    red_light.color("grey")
+    red_ligh.color("red")
+    green_light.color("green")
+    time.sleep(18)
+    green_light.color("grey")
+    yellow_light.color("yellow")
+    time.sleep(2)
+    red_ligh.color("grey")
+    yellow_light.color("grey")
+       
+wn.mainloop()
+
+#If the code fails to respond, restart it. It is due to Kernel problem.
